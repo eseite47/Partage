@@ -1,0 +1,16 @@
+{
+  "manifest_version": 2,
+
+  "name": "Stach",
+  "description": "This extension allows the user to share link with friends directly through their browser",
+  "version": "1.0",
+
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "activeTab",
+    "storage"
+  ]
+}
