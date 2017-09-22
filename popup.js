@@ -18,21 +18,18 @@ chrome.identity.getProfileUserInfo(function(cb) {
 })
 
 $(document).ready(function() {
-
-  $.get("http://localhost:8080/api/channels", function(result){
+  let id =  "elisabeth.seite" ;
+  $.get("http://localhost:8080/api/links/" + id, function(result){
     result.forEach((element, index) => {
-      let myLink = element.name;
-      let $newDiv = $(`<div class='link' id='${index}'>${myLink}</div>`)
+      let myLink = element.url;
+      let from = element.sender;
+      let $newDiv = $(`<div class='link' id='${index}'><b>${from}</b><br>${myLink}<br></div>`)
       return $('#div1').append($newDiv)
     })
-    // myLinks = result[0].content;
-    // console.log('ajax call was successful', myLinks)
-    // return $('#div1').html(myLinks)
-  }),
+  })
 
-  $('.clickme').click(function(){
-    $(this).html('i was clicked')
-  });
+  // $('.link').click(function(){
+  //   chrome.tabs.create(object createProperties, function callback)
+  // });
 })
 
-// document.addEventListener('DOMContentLoaded', init);
