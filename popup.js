@@ -2,17 +2,6 @@ chrome.identity.getAuthToken({ 'interactive': true }, function(token) {
   console.log('token', token)
 });
 
-// function click(){
-//   $('#div1').click(function(){
-//     console.log('i was clicked!')
-//     $.ajax({url: "http://localhost:8080/api/messages", success: function(result){
-//       const val = result[0].content;
-//       console.log('ajax call was successful', val)
-//       $('#div1').html(val)
-//     }}
-//   )})
-// }
-
 chrome.identity.getProfileUserInfo(function(cb) {
   console.log('identity', cb)
 })
@@ -21,9 +10,10 @@ $(document).ready(function() {
   let id =  "elisabeth.seite" ;
   $.get("http://localhost:8080/api/links/" + id, function(result){
     result.forEach((element, index) => {
-      let myLink = element.url;
+      let myLink = `https://${element.url}`;
+      let display = element.url.split('.')
       let from = element.sender;
-      let $newDiv = $(`<div class='link' id='${index}'><b>${from}</b><br>${myLink}<br></div>`)
+      let $newDiv = $(`<div class='data' id='${index}'><b>${from}</b><br><div class='link'><a target="_newtab" href=${myLink}>${display[1]}</a></div></div>`)
       return $('#div1').append($newDiv)
     })
   })
@@ -45,5 +35,13 @@ $(document).ready(function() {
       }
     })
   });
+
+  // $('.link a').on('click','a', function(){
+  //   let thisurl = $(this).attr('href')
+  //   chrome.tabs.create({url: thisurl}, function(){
+  //     console.log('success')
+  //   });
+  //   // return false;
+  // });
 })
 
