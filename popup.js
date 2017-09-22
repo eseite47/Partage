@@ -28,8 +28,22 @@ $(document).ready(function() {
     })
   })
 
-  // $('.link').click(function(){
-  //   chrome.tabs.create(object createProperties, function callback)
-  // });
+  $('#submit').on('click',function(){
+
+    let body = {
+      sender: "elisabeth.seite@gmail.com",
+      receiver: $('#receiver').val(),
+      url: $('#link').val()
+    }
+
+    $.ajax({
+      type: 'POST',
+      url: "http://localhost:8080/api/links/",
+      data: body,
+      success: function() {
+        $('#submit').html("link sent!")
+      }
+    })
+  });
 })
 
