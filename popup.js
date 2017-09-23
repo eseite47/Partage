@@ -9,11 +9,20 @@ let PartageId = "";
 function getLinks(id){
   $.get("http://localhost:8080/api/links/" + id, function(result){
     result.forEach((element, index) => {
-      let myLink = `https://${element.url}`;
-      let display = element.url.split('.')
+      let myLink = element.url
+      let display = element.url.split('//')
       let from = element.sender;
       let $newDiv = $(`<div class='data' id='${index}'><b>${from}</b><br><div class='link'><a target="_newtab" href=${myLink}>${display[1]}</a></div></div>`)
       return $('#div1').append($newDiv)
+    })
+  })
+}
+
+function getFriends(id){
+  $.get(`http://localhost:8080/api/users/friends/`, function(result){
+    result.forEach((friend, index) => {
+      let $newDiv = $(`<option id='${index}' value=${friend}>${friend}</option>`)
+      return $('#mySelect').append($newDiv)
     })
   })
 }
@@ -26,6 +35,7 @@ function getIdentity(){
     console.log(cb.email)
     PartageId = cb.email
     getLinks(PartageId)
+    getFriends(PartageId)
     return cb.email
   })
 }
@@ -33,12 +43,12 @@ function getIdentity(){
 $(document).ready(function() {
 
   getIdentity()
-
+  //getFriends()
   $('#submit').on('click',function(){
 
     let body = {
-      sender: "elisabeth.seite@gmail.com",
-      receiver: $('#receiver').val(),
+      sender: PartageId,
+      receiver: $('option').val(),
       url: $('#link').val()
     }
 
