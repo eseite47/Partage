@@ -8,3 +8,27 @@ h1 {
   color: blue;
   padding-bottom: 5px;
 }
+
+.data {
+  border: 1px solid lightblue;
+  border-radius: 7px;
+  padding: 8px;
+  margin: 5px;
+}
+.delete {
+  margin-top: 5px;
+  color: maroon;
+  background-color: white;
+  font-size: 10px;
+  border: 1px solid lightcoral;
+  border-radius: 80px;
+}
+
+p{
+  display: inline-block;
+}
+
+img {
+  height: 25px;
+  display: inline-block;
+}

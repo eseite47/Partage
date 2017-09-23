@@ -9,11 +9,32 @@ let PartageId = "";
 function getLinks(id){
   $.get("http://localhost:8080/api/links/" + id, function(result){
     result.forEach((element, index) => {
-      let myLink = element.url
+      let linkId = element.id;
+      let myLink = element.url;
       let display = element.url.split('//')
       let from = element.sender;
-      let $newDiv = $(`<div class='data' id='${index}'><b>${from}</b><br><div class='link'><a target="_newtab" href=${myLink}>${display[1]}</a></div></div>`)
-      return $('#div1').append($newDiv)
+      let message = element.message
+      $.get('http://localhost:8080/api/users/' + from, function(sender){
+        let name = sender.name || from;
+        let color = sender.color || 'black';
+        let $newDiv = $(`
+        <div>
+          <div class='data' id='${linkId}'>
+          <b style="color:${color};">${name}</b>
+          <br>
+          <div class='link'>
+            <a target="_newtab" href=${myLink}>${display[1]}</a>
+          </div>
+          <div>
+            <img src="quote.png">
+            <p>${message}<p></img>
+          </div id='${linkId}'>
+          <button class="delete">Done Reading</button>
+        </div></div>`)
+        return $('#div1').append($newDiv)
+      })
+      // let $newDiv = $(`<div class='data' id='${index}'><b>${from}</b><br><div class='link'><a target="_newtab" href=${myLink}>${display[1]}</a></div></div>`)
+
     })
   })
 }
@@ -21,18 +42,16 @@ function getLinks(id){
 function getFriends(id){
   $.get(`http://localhost:8080/api/users/friends/`, function(result){
     result.forEach((friend, index) => {
-      let $newDiv = $(`<option id='${index}' value=${friend}>${friend}</option>`)
+      $.get('http://localhost:8080/api/users/' + friend, function(friend){
+      let $newDiv = $(`<option id='${index}' value=${friend.email}>${friend.name}</option>`)
       return $('#mySelect').append($newDiv)
+      })
     })
   })
 }
 
 function getIdentity(){
   chrome.identity.getProfileUserInfo(function(cb) {
-    console.log(cb.email)
-    // = cb.email
-    //$('#div').append(`<p>Welcome ${cb.email}</p>`)
-    console.log(cb.email)
     PartageId = cb.email
     getLinks(PartageId)
     getFriends(PartageId)
@@ -62,7 +81,19 @@ $(document).ready(function() {
     })
   });
 
-
+  $('#div1').on('click', '.delete', function(){
+    let deleteId = $(this).closest('.data').attr('id')
+    console.log('desperate attempt', deleteId)
+    $.ajax({
+      url: 'http://localhost:8080/api/links/' + deleteId,
+      type: 'DELETE',
+      data: {'action': 'delete'},
+      success: function(result) {
+          $(this).html('cleared')
+      }
+    });
+    //$('#test').text(something)
+  })
   // $('.link a').on('click','a', function(){
   //   let thisurl = $(this).attr('href')
   //   chrome.tabs.create({url: thisurl}, function(){
