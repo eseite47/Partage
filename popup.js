@@ -3,12 +3,22 @@ chrome.identity.getAuthToken({ 'interactive': true }, function(token) {
 });
 
 chrome.identity.getProfileUserInfo(function(cb) {
-  console.log('identity', cb)
+  let identification = {}
+  identification.PartageId = cb.email
+  chrome.storage.local.set(identification, function(){
+    console.log('saved!', cb.email)
+  })
 })
 
 $(document).ready(function() {
-  let id =  "elisabeth.seite" ;
-  $.get("http://localhost:8080/api/links/" + id, function(result){
+  //let PartageId;
+
+  // chrome.storage.local.get('PartageId', function(data) {
+  //   PartageId = data
+  // });
+
+  let PartageId =  "elisabeth.seite@gmail.com" ;
+  $.get("http://localhost:8080/api/links/" + PartageId, function(result){
     result.forEach((element, index) => {
       let myLink = `https://${element.url}`;
       let display = element.url.split('.')
