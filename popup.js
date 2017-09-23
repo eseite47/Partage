@@ -1,24 +1,13 @@
+//let userId = "";
+
 chrome.identity.getAuthToken({ 'interactive': true }, function(token) {
   console.log('token', token)
 });
 
-chrome.identity.getProfileUserInfo(function(cb) {
-  let identification = {}
-  identification.PartageId = cb.email
-  chrome.storage.local.set(identification, function(){
-    console.log('saved!', cb.email)
-  })
-})
+let PartageId = "";
 
-$(document).ready(function() {
-  //let PartageId;
-
-  // chrome.storage.local.get('PartageId', function(data) {
-  //   PartageId = data
-  // });
-
-  let PartageId =  "elisabeth.seite@gmail.com" ;
-  $.get("http://localhost:8080/api/links/" + PartageId, function(result){
+function getLinks(id){
+  $.get("http://localhost:8080/api/links/" + id, function(result){
     result.forEach((element, index) => {
       let myLink = `https://${element.url}`;
       let display = element.url.split('.')
@@ -27,6 +16,23 @@ $(document).ready(function() {
       return $('#div1').append($newDiv)
     })
   })
+}
+
+function getIdentity(){
+  chrome.identity.getProfileUserInfo(function(cb) {
+    console.log(cb.email)
+    // = cb.email
+    //$('#div').append(`<p>Welcome ${cb.email}</p>`)
+    console.log(cb.email)
+    PartageId = cb.email
+    getLinks(PartageId)
+    return cb.email
+  })
+}
+
+$(document).ready(function() {
+
+  getIdentity()
 
   $('#submit').on('click',function(){
 
