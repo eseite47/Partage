@@ -52,6 +52,7 @@ $(document).ready(function() {
     })
   });
 
+
   // $('.link a').on('click','a', function(){
   //   let thisurl = $(this).attr('href')
   //   chrome.tabs.create({url: thisurl}, function(){

@@ -1,0 +1,72 @@
+body {
+  margin: 10px;
+  white-space: nowrap;
+}
+
+h1 {
+  font-size: 15px;
+  color: blue;
+  padding-bottom: 5px;
+}
+
+#tabs {
+  overflow: hidden;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font:12px Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif
+}
+
+#tabs li {
+  float: left;
+  margin: 0 .5em 0 0;
+}
+
+#tabs a {
+  position: relative;
+  background: #aaaaaa;
+  padding: 0.7em 3em;
+  float: left;
+  text-decoration: none;
+  color: #fff;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+#tabs a:hover, #tabs a:hover::after, #tabs a:focus, #tabs a:focus::after {
+  background: #aaaaaa;
+  color: #000;
+}
+
+#tabs a:focus {
+  outline: 0;
+}
+#tabs a::after {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: -.5em;
+  bottom: 0;
+  width: 1em;
+  background: #aaaaaa;
+}
+#tabs #current a {
+  background: #399ecd;
+  z-index: 3;
+  color: #fff;
+}
+
+#tabs #current a::after {
+  background: #399ecd;
+  z-index: 3;
+  color: #fff;
+}
+
+#content {
+  background: #fff;
+  padding: 0px;
+  position: relative;
+  z-index: 2;
+}
