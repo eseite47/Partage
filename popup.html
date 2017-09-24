@@ -10,19 +10,28 @@
   </head>
 
   <body>
-
-    <h1>Partage</h1>
-    <div id='div1'>
-      <h4 class="title">My Links</h4>
+    <button id='editButton'>Edit Profile</button>
+    <div id='edit'>
+      <p>toggle</p>
     </div>
+    <br />
+    <h1>Partage</h1>
+
     <div id='div2'>
-      <h4 class="title">Send A link</h4>
+      <h4 class="title" id="share">Send A link</h4>
+      <div id="shareInputs">
         <div>
             <select id='mySelect'></select>
         </div>
         <textarea class="textbox" id="message" placeholder="message"></textarea><br />
-      <input class="textbox" id="link" placeholder='URL'></input><br>
-      <button id='submit'>Send!</button>
+        <input class="textbox" id="link" placeholder='URL'></input><br>
+        <button id='submit'>Send!</button>
+      </div>
     </div>
+
+    <div id='div1'>
+      <h4 class="title">My Links</h4>
+    </div>
+
   </body>
 </html>

@@ -57,7 +57,8 @@ function getIdentity(){
 }
 
 $(document).ready(function() {
-
+  $('#edit').slideUp()
+  $('#shareInputs').slideUp()
   getIdentity()
   //getFriends()
   $('#submit').on('click',function(){
@@ -75,22 +76,34 @@ $(document).ready(function() {
       data: body,
       success: function() {
         $('#submit').html("link sent!")
+        setTimeout( function(){
+          $('#shareInputs').slideUp()}, 1000)
       }
     })
+
   });
 
   $('#div1').on('click', '.delete', function(){
+    let $this = $(this)
     let deleteId = $(this).closest('.data').attr('id')
     console.log('desperate attempt', deleteId)
     $.ajax({
       url: 'http://localhost:8080/api/links/' + deleteId,
       type: 'DELETE',
       data: {'action': 'delete'},
-      success: function(result) {
-          $(this).html('cleared')
+      success: function() {
+        $this.closest('.data').slideUp()
       }
     });
     //$('#test').text(something)
+  })
+
+  $('#editButton').on('click', function(){
+    $('#edit').slideToggle()
+  })
+
+  $('#share').on('click', function(){
+    $('#shareInputs').slideToggle()
   })
   // $('.link a').on('click','a', function(){
   //   let thisurl = $(this).attr('href')
