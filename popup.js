@@ -190,7 +190,7 @@ $(document).ready(function() {
     $('#shareInputs').slideToggle()
   })
 
-  socket.on('new-link', body => {
+  socket.on('new-link', element => {
     let myLink = element.url;
     let from = element.sender;
     let message = element.message
