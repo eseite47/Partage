@@ -95,10 +95,16 @@ function getIdentity(){
 }
 
 $(document).ready(function() {
+  //initial set up
   $('#edit').slideUp()
   $('#shareInputs').slideUp()
   getIdentity()
-  //getFriends()
+  var socket = io.connect('https://arcane-ocean-79878.herokuapp.com/');
+  socket.on('connect', function() {
+    console.log('Client connected');
+  });
+
+  //Send Link
   $('#submit').on('click',function(){
 
     let body = {
@@ -118,7 +124,7 @@ $(document).ready(function() {
           $('#shareInputs').slideUp()}, 1000)
       }
     })
-
+    socket.emit('new-link', body)
   });
 
   $('#div1').on('click', '.delete', function(){
@@ -183,6 +189,37 @@ $(document).ready(function() {
   $('#share').on('click', function(){
     $('#shareInputs').slideToggle()
   })
+
+  socket.on('new-link', body => {
+    let myLink = element.url;
+    let from = element.sender;
+    let message = element.message
+    if (UserFriends.includes(from)){
+      $.get(server +'users/' + from, function(sender){
+        let name;
+        if(sender.name){
+          name = sender.name;
+        }
+        else {
+          name = from;
+        }
+        let color = sender.color || 'black';
+        let $newDiv = $(`
+        <div>
+          <div class='data'>
+            <button class="delete">X</button>
+            <b class='sender' title=${from} style="color:${color};">${name}</b>
+            <br>
+            <div class='link'>
+              <p>${message}<br />
+              <a target="_newtab" href=${myLink}>${myLink}</a></p>
+            </div>
+          </div>
+        </div>`)
+        return $('#div1').append($newDiv)
+      })
+    }}
+  )
   // $('.link a').on('click','a', function(){
   //   let thisurl = $(this).attr('href')
   //   chrome.tabs.create({url: thisurl}, function(){
@@ -190,5 +227,6 @@ $(document).ready(function() {
   //   });
   //   // return false;
   // });
+
 })
 
