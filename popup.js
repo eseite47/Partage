@@ -19,25 +19,25 @@ function getLinks(){
       let myLink = element.url;
       let from = element.sender;
       let message = element.message
-      $.get('http://localhost:8080/api/users/' + from, function(sender){
-        let name = sender.name || from;
-        let color = sender.color || 'black';
-        let $newDiv = $(`
-        <div>
-          <div class='data' id='${linkId}'>
-            <button class="delete">X</button>
-            <b class='sender' style="color:${color};">${name}</b>
-            <br>
-            <div class='link'>
-              <p>${message}<br />
-              <a target="_newtab" href=${myLink}>${myLink}</a></p>
+      if (UserFriends.includes(from)){
+        $.get('http://localhost:8080/api/users/' + from, function(sender){
+          let name = sender.name || from;
+          let color = sender.color || 'black';
+          let $newDiv = $(`
+          <div>
+            <div class='data' id='${linkId}'>
+              <button class="delete">X</button>
+              <b class='sender' title=${from} style="color:${color};">${name}</b>
+              <br>
+              <div class='link'>
+                <p>${message}<br />
+                <a target="_newtab" href=${myLink}>${myLink}</a></p>
+              </div>
             </div>
-          </div>
-        </div>`)
-        return $('#div1').append($newDiv)
-      })
-      // let $newDiv = $(`<div class='data' id='${index}'><b>${from}</b><br><div class='link'><a target="_newtab" href=${myLink}>${display[1]}</a></div></div>`)
-
+          </div>`)
+          return $('#div1').append($newDiv)
+        })
+      }
     })
   })
 }
@@ -62,10 +62,13 @@ function getUser(){
     <input class="editBox" id="username" placeholder='${User}'></input><br />
     Display Color<br />
     <input class="editBox" id="color" placeholder='${UserColor}'></input><br />
-    Add a Friend<br />
-    <input class="editBox" id="newfriend" placeholder='email'></input>
-    </p><br />
-    <button id='submitEdits'>Make Changes</button>
+    Add Friends<br />
+    <input class="editBox" id="newfriend" placeholder='emails'></input>
+   <br />
+    Remove Friends<br />
+    <input class="editBox" id="deletefriend" placeholder='emails'></input>
+    <br />
+    <button id='submitEdits'>Make Changes</button></p>
     `)
     $('#edit').append($editfunction)
     getLinks(PartageId)
@@ -133,8 +136,17 @@ $(document).ready(function() {
       editBody.color = $('#color').val();
     }
     if($('#newfriend').val()){
-      let newFriend = [$('#newfriend').val()]
-      editBody.friends = UserFriends.concat(newFriend);
+      let newFriends = $('#newfriend').val().split(', ')
+      editBody.friends = UserFriends.concat(newFriends);
+    }
+    if($('#deletefriend').val()){
+      let oldFriends = $('#deletefriend').val().split(', ')
+      let newfriendsArray = editBody.friends || UserFriends
+      oldFriends.forEach(email => {
+        let index = UserFriends.indexOf(email)
+        newfriendsArray.splice(index, 1)
+      })
+      editBody.friends = newfriendsArray;
     }
 
     console.log('editBody', editBody)
