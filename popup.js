@@ -5,10 +5,16 @@ chrome.identity.getAuthToken({ 'interactive': true }, function(token) {
 });
 
 let PartageId = "";
+let User = "";
+let UserFriends = []
 
-function getLinks(id){
-  $.get("http://localhost:8080/api/links/" + id, function(result){
-    result.forEach((element, index) => {
+function getLinks(){
+  $.get("http://localhost:8080/api/links/" + PartageId, function(result){
+    if (!result.length){
+      let $newDiv = $(`<p id='empty'>You are up to date!</p>`)
+      return $('#div1').append($newDiv)
+    }
+    result.forEach(element => {
       let linkId = element.id;
       let myLink = element.url;
       let from = element.sender;
@@ -36,22 +42,41 @@ function getLinks(id){
   })
 }
 
-function getFriends(id){
-  $.get(`http://localhost:8080/api/users/friends/`, function(result){
-    result.forEach((friend, index) => {
-      $.get('http://localhost:8080/api/users/' + friend, function(friend){
-      let $newDiv = $(`<option id='${index}' value=${friend.email}>${friend.name}</option>`)
+function getFriends(){
+  UserFriends.forEach((friend, index) => {
+    $.get('http://localhost:8080/api/users/' + friend, function(friendProfile){
+      let $newDiv = $(`<option id='${index}' value=${friendProfile.email}>${friendProfile.name}</option>`)
       return $('#mySelect').append($newDiv)
-      })
     })
+  })
+}
+
+function getUser(){
+  $.get(`http://localhost:8080/api/users/` + PartageId, function(result){
+    User = result.name
+    let UserColor = result.color
+    UserFriends = result.friends
+    let $editfunction = $(`
+    <p>
+    UserName<br />
+    <input class="editBox" id="username" placeholder='${User}'></input><br />
+    Display Color<br />
+    <input class="editBox" id="color" placeholder='${UserColor}'></input><br />
+    Add a Friend<br />
+    <input class="editBox" id="newfriend" placeholder='email'></input>
+    </p><br />
+    <button id='submitEdits'>Make Changes</button>
+    `)
+    $('#edit').append($editfunction)
+    getLinks(PartageId)
+    getFriends(PartageId)
   })
 }
 
 function getIdentity(){
   chrome.identity.getProfileUserInfo(function(cb) {
     PartageId = cb.email
-    getLinks(PartageId)
-    getFriends(PartageId)
+    getUser()
     return cb.email
   })
 }
@@ -96,6 +121,31 @@ $(document).ready(function() {
       }
     });
     //$('#test').text(something)
+  })
+
+  $('#edit').on('click', '#submitEdits', function(){
+    let editBody = {}
+    editBody.email = PartageId;
+    if($('#username').val()){
+      editBody.name = $('#username').val();
+    }
+    if($('#color').val()){
+      editBody.color = $('#color').val();
+    }
+    if($('#newfriend').val()){
+      let newFriend = [$('#newfriend').val()]
+      editBody.friends = UserFriends.concat(newFriend);
+    }
+
+    console.log('editBody', editBody)
+    $.ajax({
+      url: 'http://localhost:8080/api/users/' + PartageId,
+      type: 'PUT',
+      data: editBody,
+      success: function() {
+        $('#edit').slideUp()
+      }
+    });
   })
 
   $('#editButton').on('click', function(){
