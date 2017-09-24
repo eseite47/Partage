@@ -103,7 +103,7 @@ $(document).ready(function() {
 
     let body = {
       sender: PartageId,
-      receiver: $('option').val(),
+      receiver: $("#mySelect option:selected").val(),
       url: $('#link').val(),
       message: $('#message').val()
     }
