@@ -1,4 +1,5 @@
 //let userId = "";
+const server = "https://arcane-ocean-79878.herokuapp.com/api/"
 
 chrome.identity.getAuthToken({ 'interactive': true }, function(token) {
   console.log('token', token)
@@ -9,7 +10,7 @@ let User = "";
 let UserFriends = []
 
 function getLinks(){
-  $.get("http://localhost:8080/api/links/" + PartageId, function(result){
+  $.get(server + "links/" + PartageId, function(result){
     if (!result.length){
       let $newDiv = $(`<p id='empty'>You are up to date!</p>`)
       return $('#div1').append($newDiv)
@@ -20,8 +21,14 @@ function getLinks(){
       let from = element.sender;
       let message = element.message
       if (UserFriends.includes(from)){
-        $.get('http://localhost:8080/api/users/' + from, function(sender){
-          let name = sender.name || from;
+        $.get(server +'users/' + from, function(sender){
+          let name;
+          if(sender.name){
+            name = sender.name;
+          }
+          else {
+            name = from;
+          }
           let color = sender.color || 'black';
           let $newDiv = $(`
           <div>
@@ -43,16 +50,23 @@ function getLinks(){
 }
 
 function getFriends(){
-  UserFriends.forEach((friend, index) => {
-    $.get('http://localhost:8080/api/users/' + friend, function(friendProfile){
-      let $newDiv = $(`<option id='${index}' value=${friendProfile.email}>${friendProfile.name}</option>`)
+  UserFriends && UserFriends.forEach((friend, index) => {
+    $.get(server + 'users/' + friend, function(friendProfile){
+      let sender = "";
+      if(friendProfile.name){
+        sender = friendProfile.name
+      }
+      else {
+        sender = friendProfile.email
+      }
+      let $newDiv = $(`<option id='${index}' value=${friendProfile.email}>${sender}</option>`)
       return $('#mySelect').append($newDiv)
     })
   })
 }
 
 function getUser(){
-  $.get(`http://localhost:8080/api/users/` + PartageId, function(result){
+  $.get(server + `users/` + PartageId, function(result){
     User = result.name
     let UserColor = result.color
     UserFriends = result.friends
@@ -100,7 +114,7 @@ $(document).ready(function() {
     console.log('this is what I am posting', body)
     $.ajax({
       type: 'POST',
-      url: "http://localhost:8080/api/links/",
+      url: server + "links/",
       data: body,
       success: function() {
         $('#submit').html("link sent!")
@@ -116,7 +130,7 @@ $(document).ready(function() {
     let deleteId = $(this).closest('.data').attr('id')
     console.log('desperate attempt', deleteId)
     $.ajax({
-      url: 'http://localhost:8080/api/links/' + deleteId,
+      url: server + 'links/' + deleteId,
       type: 'DELETE',
       data: {'action': 'delete'},
       success: function() {
@@ -135,9 +149,15 @@ $(document).ready(function() {
     if($('#color').val()){
       editBody.color = $('#color').val();
     }
-    if($('#newfriend').val()){
+    if ($('#newfriend').val()){
       let newFriends = $('#newfriend').val().split(', ')
-      editBody.friends = UserFriends.concat(newFriends);
+      if (UserFriends){
+        editBody.friends = UserFriends.concat(newFriends);
+      }
+      else {
+        editBody.friends = newFriends;
+      }
+
     }
     if($('#deletefriend').val()){
       let oldFriends = $('#deletefriend').val().split(', ')
@@ -151,7 +171,7 @@ $(document).ready(function() {
 
     console.log('editBody', editBody)
     $.ajax({
-      url: 'http://localhost:8080/api/users/' + PartageId,
+      url: server + 'users/' + PartageId,
       type: 'PUT',
       data: editBody,
       success: function() {
