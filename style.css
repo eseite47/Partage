@@ -55,3 +55,31 @@ a {
   overflow-wrap: normal;
   white-space: normal;
 }
+
+.textbox {
+  border: 1px solid #848484;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  border-radius: 30px;
+  outline:0;
+  height:25px;
+  width: 275px;
+  padding-left:10px;
+  padding-right:10px;
+  padding-bottom: 5px;
+}
+
+select {
+  border: 1px solid #848484;
+  height: 25px;
+  overflow: hidden;
+  width: 275px;
+  padding-left:10px;
+  padding-right:10px;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  border-radius: 30px;
+  padding-bottom: 5px;
+}
+
+
