@@ -113,7 +113,6 @@ $(document).ready(function() {
       url: $('#link').val(),
       message: $('#message').val()
     }
-    console.log('this is what I am posting', body)
     $.ajax({
       type: 'POST',
       url: server + "links/",
@@ -127,10 +126,10 @@ $(document).ready(function() {
     socket.emit('new-link', body)
   });
 
+  //delete link
   $('#div1').on('click', '.delete', function(){
     let $this = $(this)
     let deleteId = $(this).closest('.data').attr('id')
-    console.log('desperate attempt', deleteId)
     $.ajax({
       url: server + 'links/' + deleteId,
       type: 'DELETE',
@@ -139,9 +138,9 @@ $(document).ready(function() {
         $this.closest('.data').slideUp()
       }
     });
-    //$('#test').text(something)
   })
 
+  //edit profile
   $('#edit').on('click', '#submitEdits', function(){
     let editBody = {}
     editBody.email = PartageId;
@@ -170,8 +169,6 @@ $(document).ready(function() {
       })
       editBody.friends = newfriendsArray;
     }
-
-    console.log('editBody', editBody)
     $.ajax({
       url: server + 'users/' + PartageId,
       type: 'PUT',
@@ -182,14 +179,17 @@ $(document).ready(function() {
     });
   })
 
+  //edit menu toggle
   $('#editButton').on('click', function(){
     $('#edit').slideToggle()
   })
 
+  //share a link menu toggle
   $('#share').on('click', function(){
     $('#shareInputs').slideToggle()
   })
 
+  //socket for live editing
   socket.on('new-link', element => {
     let myLink = element.url;
     let from = element.sender;
@@ -220,13 +220,5 @@ $(document).ready(function() {
       })
     }}
   )
-  // $('.link a').on('click','a', function(){
-  //   let thisurl = $(this).attr('href')
-  //   chrome.tabs.create({url: thisurl}, function(){
-  //     console.log('success')
-  //   });
-  //   // return false;
-  // });
-
 })
 

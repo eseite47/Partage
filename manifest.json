@@ -24,15 +24,14 @@
     "activeTab",
     "storage",
     "identity",
-    "identity.email"
-  ],
+    "identity.email",
+    "notifications"
+  ]
 
-  "oauth2": {
-    "client_id": "491735109274-bde2sh2ujmljlqrct5r1ulrs7seb8i5g.apps.googleusercontent.com",
-    "scopes": [
-      "https://www.googleapis.com/auth/drive"
-    ]
-  },
-  "content_security_policy":"script-src 'self' https://apis.google.com; object-src 'self'"
-
+  // "oauth2": {
+  //   "client_id": "491735109274-bde2sh2ujmljlqrct5r1ulrs7seb8i5g.apps.googleusercontent.com",
+  //   "scopes": [
+  //     "https://www.googleapis.com/auth/drive"
+  //   ]
+  // }
 }
