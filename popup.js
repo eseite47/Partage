@@ -1,10 +1,6 @@
 //let userId = "";
 const server = "https://arcane-ocean-79878.herokuapp.com/api/"
 
-chrome.identity.getAuthToken({ 'interactive': true }, function(token) {
-  console.log('token', token)
-});
-
 let PartageId = "";
 let User = "";
 let UserFriends = []
