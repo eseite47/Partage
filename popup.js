@@ -11,7 +11,6 @@ function getLinks(id){
     result.forEach((element, index) => {
       let linkId = element.id;
       let myLink = element.url;
-      let display = element.url.split('//')
       let from = element.sender;
       let message = element.message
       $.get('http://localhost:8080/api/users/' + from, function(sender){
@@ -20,17 +19,15 @@ function getLinks(id){
         let $newDiv = $(`
         <div>
           <div class='data' id='${linkId}'>
-          <b style="color:${color};">${name}</b>
-          <br>
-          <div class='link'>
-            <a target="_newtab" href=${myLink}>${display[1]}</a>
+            <button class="delete">X</button>
+            <b class='sender' style="color:${color};">${name}</b>
+            <br>
+            <div class='link'>
+              <p>${message}<br />
+              <a target="_newtab" href=${myLink}>${myLink}</a></p>
+            </div>
           </div>
-          <div>
-            <img src="quote.png">
-            <p>${message}<p></img>
-          </div id='${linkId}'>
-          <button class="delete">Done Reading</button>
-        </div></div>`)
+        </div>`)
         return $('#div1').append($newDiv)
       })
       // let $newDiv = $(`<div class='data' id='${index}'><b>${from}</b><br><div class='link'><a target="_newtab" href=${myLink}>${display[1]}</a></div></div>`)
@@ -68,9 +65,10 @@ $(document).ready(function() {
     let body = {
       sender: PartageId,
       receiver: $('option').val(),
-      url: $('#link').val()
+      url: $('#link').val(),
+      message: $('#message').val()
     }
-
+    console.log('this is what I am posting', body)
     $.ajax({
       type: 'POST',
       url: "http://localhost:8080/api/links/",

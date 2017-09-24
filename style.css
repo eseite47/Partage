@@ -4,9 +4,16 @@ body {
 }
 
 h1 {
-  font-size: 15px;
-  color: blue;
+  font-family: 'Lobster', cursive;
+  font-size: 45px;
+  text-align: center;
+  color: #2D2DD1;
   padding-bottom: 5px;
+}
+
+.title {
+  font-size: 17px;
+  font-family: 'Quicksand', sans-serif;
 }
 
 .data {
@@ -16,6 +23,7 @@ h1 {
   margin: 5px;
 }
 .delete {
+  float: right;
   margin-top: 5px;
   color: maroon;
   background-color: white;
@@ -24,9 +32,17 @@ h1 {
   border-radius: 80px;
 }
 
-p{
-  display: inline-block;
+.sender {
+  font-size: 14px;
 }
+
+p {
+  font-size: 13px;
+  display: inline-block;
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+
 
 img {
   height: 25px;

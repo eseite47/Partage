@@ -3,6 +3,7 @@
   <head>
     <title>Partage</title>
     <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous"> -->
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans|Lobster|Quicksand" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="style.css">
     <script type="text/javascript" src="jquery-3.2.1.min.js"></script>
     <script src="popup.js"></script>
@@ -10,17 +11,16 @@
 
   <body>
 
-    <h1 class="title">Partage</h1>
+    <h1>Partage</h1>
     <div id='div1'>
       <h4 class="title">My Links</h4>
-      <button id="test">test</button>
     </div>
     <div id='div2'>
       <h4 class="title">Send A link</h4>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <select id='mySelect'></select>
         </div>
-      <br>
+        <textarea id="message" placeholder="message"></textarea><br />
       <input id="link" placeholder='URL'></input><br>
       <button id='submit'>Send!</button>
     </div>
