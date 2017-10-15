@@ -1,30 +1,34 @@
 //let userId = "";
-const server = "https://arcane-ocean-79878.herokuapp.com/api/"
+const server = 'https://arcane-ocean-79878.herokuapp.com/api/'
 
-let PartageId = "";
-let User = "";
+let PartageId = '';
+let User = '';
 let UserFriends = []
 
 function getLinks(){
-  $.get(server + "links/" + PartageId, function(result){
+  $.get(server + 'links/' + PartageId, function(result){
     if (!result.length){
       let $newDiv = $(`<p id='empty'>You are up to date!</p>`)
       return $('#div1').append($newDiv)
     }
+    console.log('HOW MANY RESULTS FOR REAL???', result)
+    let counter = 0
     result.forEach(element => {
       let linkId = element.id;
       let myLink = element.url;
       let from = element.sender;
       let message = element.message
       if (UserFriends.includes(from)){
-        $.get(server +'users/' + from, function(sender){
+        counter++
+        $.get(server + 'users/' + from, function(sender){
           let name;
-          if(sender.name){
+          if (sender.name){
             name = sender.name;
           }
           else {
             name = from;
           }
+
           let color = sender.color || 'black';
           let $newDiv = $(`
           <div>
@@ -41,6 +45,7 @@ function getLinks(){
           return $('#div1').append($newDiv)
         })
       }
+      chrome.browserAction.setBadgeText({text: `${counter}`});
     })
   })
 }
@@ -48,8 +53,8 @@ function getLinks(){
 function getFriends(){
   UserFriends && UserFriends.forEach((friend, index) => {
     $.get(server + 'users/' + friend, function(friendProfile){
-      let sender = "";
-      if(friendProfile.name){
+      let sender = '';
+      if (friendProfile.name){
         sender = friendProfile.name
       }
       else {
@@ -97,7 +102,7 @@ function getIdentity(){
 $(document).ready(function() {
   //initial set up
   $('#edit').slideUp()
-  $('#shareInputs').slideUp()
+  // $('#shareInputs').slideUp()
   getIdentity()
   var socket = io.connect('https://arcane-ocean-79878.herokuapp.com/');
   socket.on('connect', function() {
@@ -105,20 +110,20 @@ $(document).ready(function() {
   });
 
   //Send Link
-  $('#submit').on('click',function(){
+  $('#submit').on('click', function(){
 
     let body = {
       sender: PartageId,
-      receiver: $("#mySelect option:selected").val(),
+      receiver: $('#mySelect option:selected').val(),
       url: $('#link').val(),
       message: $('#message').val()
     }
     $.ajax({
       type: 'POST',
-      url: server + "links/",
+      url: server + 'links/',
       data: body,
       success: function() {
-        $('#submit').html("link sent!")
+        $('#submit').html('link sent!')
         setTimeout( function(){
           $('#shareInputs').slideUp()}, 1000)
       }
@@ -133,7 +138,7 @@ $(document).ready(function() {
     $.ajax({
       url: server + 'links/' + deleteId,
       type: 'DELETE',
-      data: {'action': 'delete'},
+      data: {action: 'delete'},
       success: function() {
         $this.closest('.data').slideUp()
       }
@@ -144,10 +149,10 @@ $(document).ready(function() {
   $('#edit').on('click', '#submitEdits', function(){
     let editBody = {}
     editBody.email = PartageId;
-    if($('#username').val()){
+    if ($('#username').val()){
       editBody.name = $('#username').val();
     }
-    if($('#color').val()){
+    if ($('#color').val()){
       editBody.color = $('#color').val();
     }
     if ($('#newfriend').val()){
@@ -160,7 +165,7 @@ $(document).ready(function() {
       }
 
     }
-    if($('#deletefriend').val()){
+    if ($('#deletefriend').val()){
       let oldFriends = $('#deletefriend').val().split(', ')
       let newfriendsArray = editBody.friends || UserFriends
       oldFriends.forEach(email => {
@@ -189,15 +194,23 @@ $(document).ready(function() {
     $('#shareInputs').slideToggle()
   })
 
+  //auto-populate URL to send
+  chrome.tabs.getSelected(null, function(tab) {
+    const tabUrl = tab.url;
+    console.log('This totally works', tabUrl)
+    $('#link').val(tabUrl)
+});
+
+
   //socket for live editing
   socket.on('new-link', element => {
     let myLink = element.url;
     let from = element.sender;
     let message = element.message
     if (UserFriends.includes(from)){
-      $.get(server +'users/' + from, function(sender){
+      $.get(server + 'users/' + from, function(sender){
         let name;
-        if(sender.name){
+        if (sender.name){
           name = sender.name;
         }
         else {
