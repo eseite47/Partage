@@ -93,9 +93,16 @@ function getUser(){
 
 function getIdentity(){
   chrome.identity.getProfileUserInfo(function(cb) {
+    //console.log('CALLBACK', cb)
     PartageId = cb.email
     getUser()
     return cb.email
+  })
+  chrome.identity.getOathToken(function(cb) {
+    console.log('CALLBACK', cb)
+    //PartageId = cb.email
+    // getUser()
+    // return cb.email
   })
 }
 
