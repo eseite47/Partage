@@ -12,7 +12,6 @@ router.get('/friends/', function (req, res, next) {
     }
   })
     .then(user => {
-      //console.log('Did it find my friends?', user)
       res.json(user.friends)})
     .catch(next);
 });
@@ -27,7 +26,6 @@ router.get('/:email', function (req, res, next) {
     }
   })
     .then(user => {
-      //console.log('Found this about the user', user)
       res.json(user[0])})
     .catch(next);
 });

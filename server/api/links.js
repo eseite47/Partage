@@ -12,21 +12,18 @@ router.get('/', function (req, res, next) {
 
 router.get('/:email', function (req, res, next) {
   const email = req.params.email
-  //console.log('checking email', email)
   Link.findAll({
     where: {
       receiver: email
     }
   })
     .then(links => {
-      //console.log(links)
       res.json(links)})
     .catch(next);
 });
 
 
 router.post('/', function(req, res, next){
-  //console.log('want to create', req.body)
   Link.create(req.body)
   .then(res.sendStatus(200))
 })
