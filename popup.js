@@ -1,4 +1,3 @@
-//let userId = "";
 const server = 'https://arcane-ocean-79878.herokuapp.com/api/'
 
 let PartageId = '';
@@ -11,7 +10,6 @@ function getLinks(){
       let $newDiv = $(`<p id='empty'>You are up to date!</p>`)
       return $('#div1').append($newDiv)
     }
-    console.log('HOW MANY RESULTS FOR REAL???', result)
     let counter = 0
     result.forEach(element => {
       let linkId = element.id;
@@ -73,17 +71,16 @@ function getUser(){
     UserFriends = result.friends
     let $editfunction = $(`
     <p>
-    UserName<br />
-    <input class="editBox" id="username" placeholder='${User}'></input><br />
-    Display Color<br />
-    <input class="editBox" id="color" placeholder='${UserColor}'></input><br />
-    Add Friends<br />
-    <input class="editBox" id="newfriend" placeholder='emails'></input>
-   <br />
-    Remove Friends<br />
-    <input class="editBox" id="deletefriend" placeholder='emails'></input>
-    <br />
-    <button id='submitEdits'>Make Changes</button></p>
+      UserName<br />
+      <input class="editBox" id="username" placeholder='${User}'></input><br />
+      Display Color<br />
+      <input class="editBox" id="color" placeholder='${UserColor}'></input><br />
+      Add Friends<br />
+      <input class="editBox" id="newfriend" placeholder='emails'></input><br />
+      Remove Friends<br />
+      <input class="editBox" id="deletefriend" placeholder='emails'></input><br />
+      <button id='submitEdits'>Make Changes</button>
+    </p>
     `)
     $('#edit').append($editfunction)
     getLinks(PartageId)
@@ -93,23 +90,15 @@ function getUser(){
 
 function getIdentity(){
   chrome.identity.getProfileUserInfo(function(cb) {
-    //console.log('CALLBACK', cb)
     PartageId = cb.email
     getUser()
     return cb.email
-  })
-  chrome.identity.getOathToken(function(cb) {
-    console.log('CALLBACK', cb)
-    //PartageId = cb.email
-    // getUser()
-    // return cb.email
   })
 }
 
 $(document).ready(function() {
   //initial set up
   $('#edit').slideUp()
-  // $('#shareInputs').slideUp()
   getIdentity()
   var socket = io.connect('https://arcane-ocean-79878.herokuapp.com/');
   socket.on('connect', function() {
@@ -207,7 +196,6 @@ $(document).ready(function() {
     console.log('This totally works', tabUrl)
     $('#link').val(tabUrl)
 });
-
 
   //socket for live editing
   socket.on('new-link', element => {
