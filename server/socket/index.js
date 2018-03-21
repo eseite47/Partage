@@ -11,11 +11,6 @@ module.exports = io => {
       socket.broadcast.emit('new-link', message);
     });
 
-    // socket.on('new-channel', channel => {
-    //   console.log('Emiting!')
-    //   socket.broadcast.emit('new-channel', channel);
-    // });
-
   });
 
 };

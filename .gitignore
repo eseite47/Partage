@@ -1,8 +1,5 @@
 node_modules
-public/bundle.js
-public/bundle.js.map
 secrets.js
 .DS_Store
-npm-debug.log
-yarn-error.log
-jquery-3.2.1.min.js
+popup/jquery-3.2.1.min.js
+popup/socket.io.js

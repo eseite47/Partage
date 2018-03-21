@@ -27,11 +27,4 @@
     "identity.email",
     "notifications"
   ]
-
-  // "oauth2": {
-  //   "client_id": "491735109274-bde2sh2ujmljlqrct5r1ulrs7seb8i5g.apps.googleusercontent.com",
-  //   "scopes": [
-  //     "https://www.googleapis.com/auth/drive"
-  //   ]
-  // }
 }

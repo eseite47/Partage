@@ -9,8 +9,6 @@ router.use((req, res, next) => {
 
 router.use('/links', require('./links'));
 router.use('/users', require('./users'));
-// router.use('/channels', require('./channels'));
-// router.use('/messages', require('./messages'));
 
 router.use((req, res, next) => {
   res.status(404).send('Not found');
