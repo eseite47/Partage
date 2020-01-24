@@ -16,7 +16,7 @@
     "morgan": "^1.8.1",
     "pg": "^6.1.2",
     "pg-hstore": "^2.3.2",
-    "sequelize": "^4.10.0",
+    "sequelize": "^5.1.0",
     "socket.io": "^1.7.2"
   },
   "devDependencies": {
