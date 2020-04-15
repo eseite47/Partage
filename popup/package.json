@@ -4,12 +4,14 @@
   "description": "my stackathon project - FSA 1707",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "author": "Elisabeth Seite",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.15.3",
+    "axios": "^0.18.1",
     "body-parser": "^1.16.1",
     "bootstrap": "^3.3.7",
     "express": "^4.14.1",
@@ -17,9 +19,11 @@
     "pg": "^6.1.2",
     "pg-hstore": "^2.3.2",
     "sequelize": "^5.1.0",
-    "socket.io": "^1.7.2"
+    "socket.io": "^2.0.2",
+    "snyk": "^1.305.1"
   },
   "devDependencies": {
     "nodemon": "^1.11.0"
-  }
+  },
+  "snyk": true
 }
