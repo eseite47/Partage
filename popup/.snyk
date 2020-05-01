@@ -9,3 +9,6 @@ patch:
   'npm:ms:20170412':
     - socket.io > socket.io-adapter > socket.io-parser > debug > ms:
         patched: '2020-04-15T16:55:06.064Z'
+  SNYK-JS-LODASH-567746:
+    - sequelize > lodash:
+        patched: '2020-05-01T00:27:26.079Z'
