@@ -19,7 +19,7 @@
     "pg": "^6.1.2",
     "pg-hstore": "^2.3.2",
     "sequelize": "^5.1.0",
-    "socket.io": "^2.0.2",
+    "socket.io": "^3.0.0",
     "snyk": "^1.305.1"
   },
   "devDependencies": {
